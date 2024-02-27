@@ -18,17 +18,20 @@ ada_clf = clf.ada_clf()
 hgb_clf = clf.hgb_clf()
 gau_nb = clf.gau_nb()
 lgr = clf.lgr()
+xgb_clf = clf.xgb_clf()
 
 # Regression models
 rfc_reg = reg.rfc_reg()
 ada_reg = reg.ada_reg()
 grad_reeg = reg.grad_reg()
+xgb_reg = reg.xgb_reg()
 
 # cluster mdoels
 km = clu.kmeans()
 db = clu.dbscan()
 
 # clf models results
+print(f'xgb_clf: {xgb_clf}')
 print(f'rfc_clf: {rfc_clf}')
 print(f'ada_clf: {ada_clf}')
 print(f'hgb_clf: {hgb_clf}')
@@ -36,6 +39,7 @@ print(f'gau_nb: {gau_nb}')
 print(f'lgr: {lgr}')
 
 # reg models results
+print(f"xgb_reg: {xgb_reg}")
 print(f"rfc_reg: {rfc_reg}")
 print(f"ada_reg: {ada_reg}")
 print(f"grad_reg: {grad_reeg}")

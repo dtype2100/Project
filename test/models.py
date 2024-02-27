@@ -1,4 +1,5 @@
 import mlflow, uuid
+from xgboost import XGBClassifier, XGBRegressor
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.cluster import KMeans, DBSCAN
@@ -18,6 +19,15 @@ class Classification:
     def __str__(self) -> str:
         return f"self.X: {self.X}, \n\n self.y: {self.y}"
 
+    def xgb_clf(self):
+        mlflow.set_experiment("XGBClassifier")
+        run_name = str(uuid.uuid4())
+        with mlflow.start_run(run_name=f"XGBClassifier-{run_name}"):
+            clf = XGBClassifier()
+            score = cross_val_score(clf, self.X, self.y, cv=5).mean()
+            mlflow.log_metric("accuracy", score)
+            return score
+        
     def rfc_clf(self):
         mlflow.set_experiment("RandomForestClassifier")
         run_name = str(uuid.uuid4())[:8]
@@ -68,6 +78,15 @@ class Regression:
         self.X = X
         self.y = y
         mlflow.set_tracking_uri(tracking_uri)
+    
+    def xgb_reg(self):
+        mlflow.set_experiment("XGBRegressor")
+        run_name = str(uuid.uuid4())
+        with mlflow.start_run(run_name=f"XGBRegressor-{run_name}"):
+            clf = XGBRegressor()
+            score = cross_val_score(clf, self.X, self.y, cv=5).mean()
+            mlflow.log_metric("accuracy", score)
+            return score
 
     def rfc_reg(self):
         mlflow.set_experiment("RandomForestRegressor")
@@ -128,4 +147,3 @@ class Cluster:
             score = silhouette_score(self.X, clu.fit_predict(self.X))
             mlflow.log_metric("silhoutte", score)
             return score
-
