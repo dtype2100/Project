@@ -17,6 +17,7 @@ if uploaded_data:
 
 df = st.session_state['df']
 
+
 if df is not None:
     with st.form('filter_data'):
         selected_columns = st.multiselect("Select columns", options=df.columns)
@@ -35,5 +36,28 @@ if df is not None:
             else:
                 st.write('An error occurred')
                 st.warning(response.status_code)
+
+    with st.form('prepro_null'):
+        if filtered_df:
+            payload_null = st.multiselect('select null preprocessing', ['ffill', 'bfill', 'dropna'])
+            if payload_null == 'ffill':
+                prepro_null = df.fillna(method='ffill')
+                st.write(prepro_null)
+            if payload_null == 'bfill':
+                prepro_null = df.fillna(method='bfill')
+                st.write(prepro_null)
+            if payload_null == 'dropna':
+                prepro_null = df.dropna(axis=0)
+                st.write(prepro_null)
+            json_data =  {
+                'payload_null': payload_null
+            }
+            response = requests.post('http://backend:8000/save_router/payload_null', json=json_data)   
+            if response.status_code == 200:
+                st.success('apply payload successfully!')
+            else:
+                st.write('An error occurred')
+                st.warning(response.status_code)
+
 else:
     st.warning("Please upload a CSV file to proceed.")
