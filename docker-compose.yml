@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: backend
+    container_name: backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - FASTAPI_HOST=0.0.0.0
+      - FASTAPI_PORT=8000
+    networks:
+      - project-network
+  frontend:
+    build:
+      context: ./frontend
+    image: frontend
+    container_name: frontend
+    volumes:
+      - ./frontend:/app
+    ports:  
+      - "8501:8501"
+    environment:
+      - STREAMLIT_HOST=0.0.0.0
+      - STREAMLIT_PORT=8501
+    networks:
+      - project-network
+    depends_on:
+      - backend
+
+networks:
+  project-network:
+    driver: bridge
