@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 
 # Streamlit UI
-st.title("Data Preprocessing Workflow")
+st.title("Upload data and Create table")
 
 uploaded_data = st.file_uploader("Upload a CSV file", type=["csv"])
 

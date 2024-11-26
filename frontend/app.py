@@ -4,8 +4,11 @@ import os
 
 sys.path.append(os.path.abspath('./pages/'))
 
-
 pages = {
+    'Home': [
+        st.Page('./pages/home.py', title='Main page')
+    ]
+    ,
     "Upload data": [
         st.Page('./pages/upload_data.py', title='Upload data and Create table')
     ]
