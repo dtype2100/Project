@@ -12,7 +12,8 @@ with st.form('show_tables'):
         if response.status_code == 200:
             st.success('show tables successfully!')
             result = response.json()
-            st.write(result['tables']) # test
+            st.multiselect('Choose table', [table[0] for table in result['tables']])
+            # st.write(result['tables']) # test
 
         else:
             st.write('An error occurred in showing table')
