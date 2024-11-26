@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 
-# Streamlit UI
+
 st.title("Upload data and Create table")
 
 uploaded_data = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -21,6 +21,17 @@ if uploaded_data:
 
 df = st.session_state['df']
 
+with st.form('show_tables'):
+    if st.form_submit_button('show tables'):
+        response = requests.get('http://backend:8000/select_router/select_data')   
+        if response.status_code == 200:
+            st.success('show tables successfully!')
+            result = response.json()
+            st.write(result['tables']) # test
+
+        else:
+            st.write('An error occurred in showing table')
+            st.warning(response.status_code)
 
 if df is not None:
     with st.form('save data'):
@@ -80,18 +91,6 @@ if df is not None:
     #         else:
     #             st.write('An error occurred in prepro_null')
     #             st.warning(response.status_code)
-
-    with st.form('show_tables'):
-        if st.form_submit_button('show tables'):
-            response = requests.get('http://backend:8000/select_router/select_data')   
-            if response.status_code == 200:
-                st.success('apply payload successfully!')
-                result = response.json()
-                st.write(result['tables']) # test
-
-            else:
-                st.write('An error occurred in select_database')
-                st.warning(response.status_code)
 
 else:
     st.warning("Please upload a CSV file to proceed.")
