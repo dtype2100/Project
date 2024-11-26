@@ -11,6 +11,9 @@ pages = {
     ,
     "Upload data": [
         st.Page('./pages/upload_data.py', title='Upload data and Create table')
+    ],
+    'Data proprecessing': [
+        st.Page('./pages/prepro_data.py', title='Data cleaning')
     ]
 }
 
