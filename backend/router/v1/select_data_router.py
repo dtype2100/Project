@@ -8,9 +8,11 @@ router = APIRouter(
 )
 
 
-@router.get('/select_data')
+@router.get('/show_tables')
 async def save_data():
     con = duckdb.connect('./database.db')
     tables = con.execute('SHOW TABLES;').fetchall()
     
     return {'tables': tables}
+
+

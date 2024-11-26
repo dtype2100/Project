@@ -23,7 +23,7 @@ df = st.session_state['df']
 
 with st.form('show_tables'):
     if st.form_submit_button('show tables'):
-        response = requests.get('http://backend:8000/select_router/select_data')   
+        response = requests.get('http://backend:8000/select_router/show_tables')   
         if response.status_code == 200:
             st.success('show tables successfully!')
             result = response.json()
