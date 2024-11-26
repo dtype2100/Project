@@ -4,7 +4,7 @@ import duckdb
 
 router = APIRouter(
     prefix='/save_router',
-    tags=['save_data']
+    tags=['save_router']
 )
 
 
