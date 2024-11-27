@@ -30,6 +30,7 @@ async def prepro_all_df(request: Request):
 
     df = pd.read_json(df_data)
     
+    
     # 데이터 전처리 적용 예정
 
     return df
