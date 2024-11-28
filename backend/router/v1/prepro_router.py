@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Request
-from pydantic import BaseModel
-from services.prepro import Preprocessing
+from fastapi import APIRouter, Request, HTTPException
+from schemas.prepro import PreprocessingJob
+from services.prepro import Preprocessing, AirflowDag
 import pandas as pd
+import requests
 
 router = APIRouter(
     prefix='/prepro_router',
@@ -9,6 +10,7 @@ router = APIRouter(
 )
 
 pc = Preprocessing()
+ad = AirflowDag()
 
 AIRFLOW_API_URL = 'http://localhost:8080/api/v1/dags'
 AIRFLOW_USER = 'airflow'
@@ -41,16 +43,19 @@ async def prepro_all_df(request: Request) -> pd.DataFrame:
     return df
 
 @router.get('/apply_schedule_workflow')
-async def apply_schedule_workflow(request: Request):
+async def apply_schedule_workflow(job: PreprocessingJob):
 
-    result = await request.json()
+    dag_file_path = ad.create_dag_file(job.dag_id, job.schedule_interval, job.script_path, job.task_id)
 
-    df_data = result['df_data']
-    prepro_params = result['prepro_params']
 
-    df = pd.read_json(df_data)
+    response = requests.post(
+        f"{AIRFLOW_API_URL}/{job.dag_id}",
+        json={"conf": {}},
+        auth=(AIRFLOW_USER, AIRFLOW_PASSWORD)
+    )
     
-    # 데이터 전처리 적용 예정
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail="Failed to trigger DAG")
 
-    return df
+    return {"message": "DAG and Task created successfully", "dag_id": job.dag_id}
 
