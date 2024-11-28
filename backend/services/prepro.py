@@ -9,11 +9,11 @@ class Preprocessing:
     def prepro_all_columns(
             self, 
             df_data: Union[str, Dict[str, Any]], 
-            payload: Dict[str, str]
+            prepro_params: Dict[str, str]
             ) -> pd.DataFrame:
         
         df = pd.read_json(df_data)
-        for _, var in payload.items():
+        for _, var in prepro_params.items():
             if var == 'all_col_dropna':
                 df.dropna(inplace=True)
 

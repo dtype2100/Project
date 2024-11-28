@@ -15,7 +15,7 @@ async def prepro_sample_df(request: Request):
     result = await request.json()
 
     df_data = result['df_data']
-    payload = result['payload']
+    payload = result['prepro_params']
 
     df = pd.read_json(df_data)
     
@@ -29,9 +29,9 @@ async def prepro_all_df(request: Request) -> pd.DataFrame:
     result = await request.json()
 
     df_data = result['df_data']
-    payload = result['payload']
+    prepro_params = result['prepro_params']
 
-    df = pc.prepro_all_columns(df_data=df_data, payload=payload)
+    df = pc.prepro_all_columns(df_data=df_data, prepro_params=prepro_params)
 
     return df
 
@@ -41,7 +41,7 @@ async def apply_schedule_workflow(request: Request):
     result = await request.json()
 
     df_data = result['df_data']
-    payload = result['payload']
+    prepro_params = result['prepro_params']
 
     df = pd.read_json(df_data)
     
