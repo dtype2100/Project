@@ -15,11 +15,11 @@ async def prepro_sample_df(request: Request):
     result = await request.json()
 
     df_data = result['df_data']
-    payload = result['prepro_params']
+    prepro_params = result['prepro_params']
 
     df = pd.read_json(df_data)
     
-    # 데이터 전처리 적용 예정
+    df = pc.prepro_all_columns(df_data=df_data, prepro_params=prepro_params)
 
     return df
 
