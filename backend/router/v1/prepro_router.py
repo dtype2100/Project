@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request
+from pydantic import BaseModel
 from services.prepro import Preprocessing
 import pandas as pd
 
@@ -8,6 +9,10 @@ router = APIRouter(
 )
 
 pc = Preprocessing()
+
+AIRFLOW_API_URL = 'http://localhost:8080/api/v1/dags'
+AIRFLOW_USER = 'airflow'
+AIRFLOW_PASSWORD = 'airflow'
 
 @router.get('/prepro_sample_df')
 async def prepro_sample_df(request: Request):

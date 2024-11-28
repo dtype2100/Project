@@ -32,3 +32,4 @@ class Preprocessing:
                 df = scaler.fit_transform(df)
 
         return df
+
